@@ -60,24 +60,22 @@ public class DriverControled extends LinearOpMode {
 
             setFace(gaju.y, gaju.a, gaju.x, gaju.b);
             move(gaju.left_x, gaju.left_y, gaju.right_x, gaju.left_trigger.toButton(0.3), gaju.right_trigger.toButton(0.3), gaju.dpad_left, gaju.dpad_right);
-            brat(andrei.left_x, andrei.right_y, andrei.a);
-            if (andrei.x.raw && !isPressed1) {
-                isPressed1 = true;
+            brat(andrei.left_x, andrei.right_y);
+            if (andrei.x.pressed()) {
                 if (changed2) {
                     robot.rul.setPower(0.0);
                 } else {
                     robot.rul.setPower(-1.0);
                 }
                 changed2 = !changed2;
-            } else if (!andrei.x.raw && isPressed1) {
-                isPressed1 = false;
             }
-            if (andrei.y.raw && !isPressed3) {
-                isPressed3 = true;
+            if (andrei.y.pressed()) {
                 robot.brat.clapeta();
-            } else if (!andrei.y.raw && isPressed3) {
-                isPressed3 = false;
             }
+            if (andrei.a.pressed()) {
+                robot.brat.cutie();
+            }
+
             telemetry.update();
         }
 
@@ -104,15 +102,7 @@ public class DriverControled extends LinearOpMode {
         else robot.runner.moveWithAngle(drive_x, drive_y, turn, modifier);
     }
 
-    private void brat(Axis lx, Axis ly, Button cutie) {
-        if (cutie.raw && !isPressed2) {
-            robot.brat.cutie();
-            isPressed2 = true;
-        } else if (!cutie.raw && isPressed2) {
-            isPressed2 = false;
-        }
-
-
+    private void brat(Axis lx, Axis ly) {
         final double brat_x = lx.raw;
         final double brat_y = ly.raw;
 
